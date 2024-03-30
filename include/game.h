@@ -23,7 +23,6 @@
 # define HEAP_MIN_ITEMS 1
 # define MAX_MOVE 3
 # define MIN_MOVE 1
-# define INVALID_HEAP 0
 # define INVALID_USER_INPUT 0
 
 typedef struct s_game
