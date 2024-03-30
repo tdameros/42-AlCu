@@ -15,7 +15,7 @@
 
 #include "game.h"
 
-static bool	start_condition(uint16_t heap);
+static bool		start_condition(uint16_t heap);
 static uint16_t	get_heap_lose_move(uint16_t heap);
 static uint16_t	get_heap_win_move(uint16_t heap);
 
@@ -32,11 +32,10 @@ int16_t	init_ai(t_game *game, t_ai *ai)
 	while (i < game->heaps.len)
 	{
 		should_start_next = ai->should_start[i - 1];
-		if (!should_start_next) {
+		if (!should_start_next)
 			ai->should_start[i] = *get_heap(game, i) % 4 != 0;
-		} else {
+		else
 			ai->should_start[i] = start_condition(*get_heap(game, i));
-		}
 		printf("%lu = %d\n", i, ai->should_start[i]);
 		i++;
 	}
@@ -48,10 +47,11 @@ static bool	start_condition(uint16_t heap)
 	return (heap % 4 != 1);
 }
 
-uint16_t	get_ai_move(t_game *game, t_ai *ai)
+uint16_t	get_ai_move(t_game *game, const t_ai *ai)
 {
-	uint16_t	heap = *get_heap(game, game->current_heap);
+	uint16_t	heap;
 
+	heap = *get_heap(game, game->current_heap);
 	if (game->current_heap == 0 || ai->should_start[game->current_heap - 1])
 		printf("AI SHOULD WIN\n");
 	else
