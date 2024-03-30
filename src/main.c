@@ -37,6 +37,7 @@ int	main(int argc, char **argv)
 	}
 	printf("Start game\n");
 	start_game(&game);
+	vector_free(&game.heaps);
 	return (0);
 }
 

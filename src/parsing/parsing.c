@@ -22,20 +22,20 @@ int	parse(t_game *game, int fd)
 
 	vector_init(&game->heaps, sizeof(uint16_t));
 	line = get_next_line(fd);
-	while (line != NULL)
+	while (line != NULL && line[0] != '\n')
 	{
 		current = parse_user_input(line, HEAP_MIN_ITEMS, HEAP_MAX_ITEMS);
-		if (current == INVALID_USER_INPUT)
+		free(line);
+		if (current == INVALID_USER_INPUT
+			|| vector_add(&game->heaps, &current) != 0)
 		{
 			vector_free(&game->heaps);
 			return (-1);
 		}
-		if (vector_add(&game->heaps, &current) != 0)
-			return (-1);
-		free(line);
 		line = get_next_line(fd);
 	}
-	if (errno != 0)
+	free(line);
+	if (errno != 0 || game->heaps.len == 0)
 	{
 		vector_free(&game->heaps);
 		return (-1);
@@ -43,7 +43,7 @@ int	parse(t_game *game, int fd)
 	return (0);
 }
 
-int32_t	parse_user_input(char *input, uint16_t min, uint16_t max)
+uint16_t	parse_user_input(const char *input, uint16_t min, uint16_t max)
 {
 	uint16_t	result;
 

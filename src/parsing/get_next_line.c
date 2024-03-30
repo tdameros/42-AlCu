@@ -1,44 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: tdameros <tdameros@student.42lyon.f>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/14 17:13:57 by tdameros          #+#    #+#             */
-/*   Updated: 2022/11/23 00:34:37 by tdameros         ###   ########lyon.fr   */
+/*   Created: 2022/11/11 12:17:46 by tdameros          #+#    #+#             */
+/*   Updated: 2022/11/23 00:34:49 by tdameros         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing/get_next_line.h"
 #include <unistd.h>
+
+#include "parsing/get_next_line.h"
 
 /**
  * Consumable function that returns a line on each call.
  * Read the file descriptor with BUFFER_SIZE macro (defined at 42 by default).
- * Does not support multiple file descriptors.
+ * Support multiple file descriptors (OPEN_MAX macro).
  * @param fd
  * @return char * line allocate with malloc
  */
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE];
+	static char	buf[OPEN_MAX][BUFFER_SIZE];
 	char		*line;
 	char		*line_temp;
 	int			is_line;
 
-	if (fd < 0)
+	if (fd < 0 || fd >= OPEN_MAX)
 		return (NULL);
-	if (is_empty_buf(buf, BUFFER_SIZE) && read(fd, buf, BUFFER_SIZE) <= 0)
+	if (is_empty_buf(buf[fd], BUFFER_SIZE)
+		&& read(fd, buf[fd], BUFFER_SIZE) <= 0)
 		return (NULL);
-	line = extract_line_in_buf(buf, BUFFER_SIZE, &is_line);
+	line = extract_line_in_buf(buf[fd], BUFFER_SIZE, &is_line);
 	if (line == NULL)
 		return (NULL);
 	while (is_line == 0)
 	{
-		if (read(fd, buf, BUFFER_SIZE) <= 0)
+		if (read(fd, buf[fd], BUFFER_SIZE) <= 0)
 			return (line);
-		line_temp = extract_line_in_buf(buf, BUFFER_SIZE, &is_line);
+		line_temp = extract_line_in_buf(buf[fd], BUFFER_SIZE, &is_line);
 		if (line_temp == NULL)
 			return (free_ret_null(line, NULL));
 		line = strjoin_free(line, line_temp);

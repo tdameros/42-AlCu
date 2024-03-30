@@ -12,6 +12,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "parsing/get_next_line.h"
 #include "game.h"
@@ -34,6 +35,7 @@ int8_t	execute_move(t_game *game, uint16_t move, char *playername)
 		if (write(STDOUT_FILENO, " lost!\n", 7) == -1)
 			return (-2);
 	}
+	printf("%s took %u\n", playername, move);
 	return (0);
 }
 
@@ -50,6 +52,7 @@ int32_t	execute_user_move(t_game *game)
 		if (input == NULL)
 			return (-1);
 		move = parse_user_input(input, MIN_MOVE, MAX_MOVE);
+		free(input);
 		if (move == INVALID_USER_INPUT)
 			print_error(INVALID_MOVE_ERROR);
 		return_code = execute_move(game, move, "user");
@@ -60,7 +63,6 @@ int32_t	execute_user_move(t_game *game)
 		}
 		else if (return_code == -2)
 			return (-1);
-		free(input);
 	}
 	return (move);
 }
