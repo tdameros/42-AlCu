@@ -17,6 +17,6 @@
 # define INVALID_MOVE_ERROR "The move must be between 1 and 3.\n"
 # define MOVE_TOO_HIGH "Move too high.\n"
 
-void	print_error(char *error);
+int32_t	print_error(char *error);
 
 #endif

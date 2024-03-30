@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
-
+#include <stdint.h>
 #include "parsing/get_next_line.h"
 
-void	print_error(char *error)
+int32_t	print_error(char *error)
 {
-	write(STDERR_FILENO, error, ft_strlen(error));
+	return (write(STDERR_FILENO, error, ft_strlen(error)));
 }
