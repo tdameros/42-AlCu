@@ -12,6 +12,7 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "parsing/get_next_line.h"
 #include "game.h"
@@ -27,7 +28,6 @@ int8_t	execute_move(t_game *game, uint16_t move, char *playername)
 	*heap -= move;
 	if (*heap == 0 && game->current_heap > 0)
 		game->current_heap--;
-	printf("%s took %u\n", playername, move);
 	else if (game->current_heap == 0 && *heap == 0)
 	{
 		if (write(STDOUT_FILENO, playername, ft_strlen(playername)) == -1)
@@ -35,6 +35,7 @@ int8_t	execute_move(t_game *game, uint16_t move, char *playername)
 		if (write(STDOUT_FILENO, " lost!\n", 7) == -1)
 			return (-2);
 	}
+	printf("%s took %u\n", playername, move);
 	return (0);
 }
 

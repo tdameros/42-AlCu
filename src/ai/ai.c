@@ -63,24 +63,14 @@ uint16_t	get_ai_move(t_game *game, t_ai *ai)
 
 static uint16_t	get_heap_win_move(uint16_t heap)
 {
-	if (heap == 1)
+	if ((heap - 1) % 4 == 0)
 		return (1);
-	if (heap <= 4)
-		return (heap - 1);
-	if (heap % 4 == 1)
-		return (2);
-	if (heap % 4 == 0)
-		return ((4 - (heap % 4)) - 1);
-	return (heap % 4 - 1);
+	return ((heap - 1) % 4);
 }
 
 static uint16_t	get_heap_lose_move(uint16_t heap)
 {
-	if (heap <= 3)
-		return (heap);
-	if (heap % 3 == 1)
-		return (2);
-	if (heap % 3 == 0)
-		return ((3 - (heap % 3)) - 1);
-	return (heap % 3 - 1);
+	if (heap % 4 == 0)
+		return (1);
+	return (heap % 4);
 }
