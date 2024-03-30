@@ -29,8 +29,10 @@ int8_t	execute_move(t_game *game, uint16_t move, char *playername)
 		game->current_heap--;
 	else if (game->current_heap == 0 && *heap == 0)
 	{
-		write(STDOUT_FILENO, playername, ft_strlen(playername));
-		write(STDOUT_FILENO, " lost!\n", 7);
+		if (write(STDOUT_FILENO, playername, ft_strlen(playername)) == -1)
+			return (-2);
+		if (write(STDOUT_FILENO, " lost!\n", 7) == -1)
+			return (-2);
 	}
 	return (0);
 }
@@ -39,6 +41,7 @@ int32_t	execute_user_move(t_game *game)
 {
 	char		*input;
 	uint16_t	move;
+	int8_t		return_code;
 
 	move = INVALID_USER_INPUT;
 	while (move == INVALID_USER_INPUT)
@@ -49,11 +52,14 @@ int32_t	execute_user_move(t_game *game)
 		move = parse_user_input(input, MIN_MOVE, MAX_MOVE);
 		if (move == INVALID_USER_INPUT)
 			print_error(INVALID_MOVE_ERROR);
-		if (execute_move(game, move, "user") == -1)
+		return_code = execute_move(game, move, "user");
+		if (return_code == -1)
 		{
 			move = INVALID_USER_INPUT;
 			print_error(MOVE_TOO_HIGH);
 		}
+		else if (return_code == -2)
+			return (-1);
 		free(input);
 	}
 	return (move);
