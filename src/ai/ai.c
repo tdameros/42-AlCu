@@ -45,7 +45,7 @@ int16_t	init_ai(t_game *game, t_ai *ai)
 
 static bool	start_condition(uint16_t heap)
 {
-	return heap <= 3 || (heap % 4 == 1 && heap > 3);
+	return (heap <= 3 && heap != 1) || (heap % 4 != 1 && heap > 3);
 }
 
 uint16_t	get_ai_move(t_game *game, t_ai *ai)
