@@ -1,6 +1,8 @@
 #*******************************  VARIABLES  **********************************#
 
 NAME			=	alcu
+MAP_GEN_SIZE	=	5
+MAP_GEN_RANGE	=	10
 
 # --------------- FILES --------------- #
 
@@ -14,6 +16,7 @@ DIR_INCLUDE		=	include/
 DIR_LIB			=	lib/
 DIR_VECTOR		=	$(addprefix $(DIR_LIB), vector/)
 VECTOR_INCLUDES	= 	$(addprefix $(DIR_VECTOR), includes/)
+DIR_MAPS		=	maps/
 
 DIR_INCLUDES =\
 	$(DIR_INCLUDE)		\
@@ -27,6 +30,9 @@ SRC				=	$(addprefix $(DIR_SRC),$(LIST_SRC))
 VECTOR			=	vct
 LIB_VECTOR		=	$(addprefix $(DIR_VECTOR), lib$(VECTOR).a)
 INCLUDES		=	$(addprefix -I , $(DIR_INCLUDES))
+MAP_GEN			=	$(addprefix $(DIR_MAPS), map_gen.sh)
+RANDOM_MAP_GEN	=	$(addprefix $(DIR_MAPS), random.map)
+
 
 # ------------ COMPILATION ------------ #
 
@@ -85,6 +91,10 @@ re:				fclean
 .PHONY: debug
 debug:	fclean
 				$(MAKE) all CFLAGS="$(DEBUG_CFLAGS)"
-				
+
+.PHONY: generate_map
+generate_map:
+				$(MAP_GEN) $(MAP_GEN_SIZE) $(MAP_GEN_RANGE) > $(RANDOM_MAP_GEN)
+
 .PHONY: FORCE
 FORCE:
