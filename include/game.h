@@ -33,7 +33,7 @@ typedef struct s_game
 
 typedef struct s_ai
 {
-	uint16_t	*should_start;
+	bool	*should_start;
 }	t_ai;
 
 int			parse(t_game *game, int fd);

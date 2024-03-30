@@ -24,6 +24,11 @@ int	parse(t_game *game, int fd)
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
+		if (line[0] == '\n')
+		{
+			free(line);
+			break ;
+		}
 		current = parse_user_input(line, HEAP_MIN_ITEMS, HEAP_MAX_ITEMS);
 		free(line);
 		if (current == INVALID_USER_INPUT)

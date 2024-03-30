@@ -15,8 +15,9 @@
 
 #include "game.h"
 
-uint16_t	get_heap_lose_move(uint16_t heap);
-uint16_t	get_heap_win_move(uint16_t heap);
+static bool	start_condition(uint16_t heap);
+static uint16_t	get_heap_lose_move(uint16_t heap);
+static uint16_t	get_heap_win_move(uint16_t heap);
 
 int16_t	init_ai(t_game *game, t_ai *ai)
 {
@@ -26,37 +27,25 @@ int16_t	init_ai(t_game *game, t_ai *ai)
 	ai->should_start = malloc(sizeof(*ai->should_start) * game->heaps.len);
 	if (ai->should_start == NULL)
 		return (-1);
-	ai->should_start[0] = *get_heap(game, 0) % 4 != 1 && *get_heap(game, 0) > 3;
+	ai->should_start[0] = start_condition(*get_heap(game, 0));
 	printf("0 = %d\n", ai->should_start[0]);
 	i = 1;
 	while (i < game->heaps.len)
 	{
 		should_start_next = ai->should_start[i - 1];
-		if (should_start_next)
-		{
-			if (*get_heap(game, i) % 4 == 1 && *get_heap(game, 0) > 3)
-				ai->should_start[i] = 1;
-			else
-				ai->should_start[i] = 0;
-		}
+		if (start_condition(*get_heap(game, i)))
+			ai->should_start[i] = should_start_next;
 		else
-		{
-			if (*get_heap(game, i) % 4 == 1 && *get_heap(game, 0) > 3)
-				ai->should_start[i] = 0;
-			else
-				ai->should_start[i] = 1;
-		}
+			ai->should_start[i] = !should_start_next;
 		printf("%lu = %d\n", i, ai->should_start[i]);
-		// ai->should_start[i] = *get_heap(game, i - 1) % 4 != 1;
-		// if (!ai->should_start[i - 1])
-		// 	ai->should_start[i] = !ai->should_start[i];
-		// if (ai->should_start[i - 1] && game->heaps[0] % 4 != 1)
-		// 	ai->should_start[i] = 1;
-		// else
-		// 	ai->should_start[i] = 0;
 		i++;
 	}
 	return (0);
+}
+
+static bool	start_condition(uint16_t heap)
+{
+	return heap <= 3 || (heap % 4 == 1 && heap > 3);
 }
 
 uint16_t	get_ai_move(t_game *game, t_ai *ai)
@@ -72,8 +61,10 @@ uint16_t	get_ai_move(t_game *game, t_ai *ai)
 	return (get_heap_lose_move(heap));
 }
 
-uint16_t	get_heap_win_move(uint16_t heap)
+static uint16_t	get_heap_win_move(uint16_t heap)
 {
+	if (heap == 1)
+		return (1);
 	if (heap <= 4)
 		return (heap - 1);
 	if (heap % 4 == 1)
@@ -83,7 +74,7 @@ uint16_t	get_heap_win_move(uint16_t heap)
 	return (heap % 4 - 1);
 }
 
-uint16_t	get_heap_lose_move(uint16_t heap)
+static uint16_t	get_heap_lose_move(uint16_t heap)
 {
 	if (heap <= 3)
 		return (heap);
