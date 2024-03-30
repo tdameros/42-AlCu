@@ -27,6 +27,7 @@ int8_t	execute_move(t_game *game, uint16_t move, char *playername)
 	*heap -= move;
 	if (*heap == 0 && game->current_heap > 0)
 		game->current_heap--;
+	printf("%s took %u\n", playername, move);
 	else if (game->current_heap == 0 && *heap == 0)
 	{
 		if (write(STDOUT_FILENO, playername, ft_strlen(playername)) == -1)
