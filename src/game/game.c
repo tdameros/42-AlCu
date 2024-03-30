@@ -28,16 +28,21 @@ int32_t	init_game(t_game *game, int fd)
 
 void	start_game(t_game *game)
 {
+	t_ai	ai;
+
+	if (init_ai(game, &ai) == -1)
+		return ;
 	while (!is_finished(game))
 	{
 		display_game(game);
-		execute_move(game, get_ai_move(game), "AI");
+		execute_move(game, get_ai_move(game, &ai), "AI");
 		if (is_finished(game))
-			return ;
+			break ;
 		display_game(game);
 		if (execute_user_move(game) == -1)
-			return ;
+			break ;
 	}
+	free(ai.should_start);
 }
 
 void	display_game(t_game *game)

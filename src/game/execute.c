@@ -50,6 +50,7 @@ int32_t	execute_user_move(t_game *game)
 		if (input == NULL)
 			return (-1);
 		move = parse_user_input(input, MIN_MOVE, MAX_MOVE);
+		free(input);
 		if (move == INVALID_USER_INPUT)
 			print_error(INVALID_MOVE_ERROR);
 		return_code = execute_move(game, move, "user");
@@ -60,7 +61,6 @@ int32_t	execute_user_move(t_game *game)
 		}
 		else if (return_code == -2)
 			return (-1);
-		free(input);
 	}
 	return (move);
 }

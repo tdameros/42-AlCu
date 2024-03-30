@@ -25,6 +25,7 @@ int	parse(t_game *game, int fd)
 	while (line != NULL)
 	{
 		current = parse_user_input(line, HEAP_MIN_ITEMS, HEAP_MAX_ITEMS);
+		free(line);
 		if (current == INVALID_USER_INPUT)
 		{
 			vector_free(&game->heaps);
@@ -32,9 +33,10 @@ int	parse(t_game *game, int fd)
 		}
 		if (vector_add(&game->heaps, &current) != 0)
 			return (-1);
-		free(line);
 		line = get_next_line(fd);
 	}
+	if (game->heaps.len == 0)
+		return (-1);
 	if (errno != 0)
 	{
 		vector_free(&game->heaps);

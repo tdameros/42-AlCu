@@ -31,6 +31,11 @@ typedef struct s_game
 	t_vector	heaps;
 }	t_game;
 
+typedef struct s_ai
+{
+	uint16_t	*should_start;
+}	t_ai;
+
 int			parse(t_game *game, int fd);
 int32_t		init_game(t_game *game, int fd);
 void		start_game(t_game *game);
@@ -41,6 +46,7 @@ int8_t		execute_move(t_game *game, uint16_t move, char *playername);
 int32_t		execute_user_move(t_game *game);
 uint16_t	*get_heap(t_game *game, size_t heap_index);
 
-uint16_t	get_ai_move(t_game *game);
+int16_t		init_ai(t_game *game, t_ai *ai);
+uint16_t	get_ai_move(t_game *game, t_ai *ai);
 
 #endif
