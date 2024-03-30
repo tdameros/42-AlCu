@@ -30,7 +30,8 @@ INCLUDES		=	$(addprefix -I , $(DIR_INCLUDES))
 
 # ------------ COMPILATION ------------ #
 
-CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -g3 #-O3
+CFLAGS			=	-Wall -Wextra -Werror -O3
+DEBUG_CFLAGS	=	-fsanitize=address -g3
 
 DEP_FLAGS		=	-MMD -MP
 
@@ -80,6 +81,10 @@ fclean: clean
 .PHONY: re
 re:				fclean
 				$(MAKE) all
+
+.PHONY: debug
+debug:	fclean
+				$(MAKE) all CFLAGS="$(DEBUG_CFLAGS)"
 				
 .PHONY: FORCE
 FORCE:
