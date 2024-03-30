@@ -28,15 +28,15 @@ int16_t	init_ai(t_game *game, t_ai *ai)
 	if (ai->should_start == NULL)
 		return (-1);
 	ai->should_start[0] = start_condition(*get_heap(game, 0));
-	printf("0 = %d\n", ai->should_start[0]);
 	i = 1;
 	while (i < game->heaps.len)
 	{
 		should_start_next = ai->should_start[i - 1];
-		if (start_condition(*get_heap(game, i)))
-			ai->should_start[i] = should_start_next;
-		else
-			ai->should_start[i] = !should_start_next;
+		if (!should_start_next) {
+			ai->should_start[i] = *get_heap(game, i) % 4 != 0;
+		} else {
+			ai->should_start[i] = start_condition(*get_heap(game, i));
+		}
 		printf("%lu = %d\n", i, ai->should_start[i]);
 		i++;
 	}
@@ -45,7 +45,7 @@ int16_t	init_ai(t_game *game, t_ai *ai)
 
 static bool	start_condition(uint16_t heap)
 {
-	return (heap <= 3 && heap != 1) || (heap % 4 != 1 && heap > 3);
+	return (heap % 4 != 1);
 }
 
 uint16_t	get_ai_move(t_game *game, t_ai *ai)
