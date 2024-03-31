@@ -6,7 +6,7 @@
 /*   By: lcottet <lcottet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 01:19:50 by tdameros          #+#    #+#             */
-/*   Updated: 2024/03/31 20:05:04 by lcottet          ###   ########.fr       */
+/*   Updated: 2024/03/31 20:14:50 by lcottet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ int32_t	start_game(t_game *game)
 		if (is_finished(game))
 			break ;
 		display_game(game);
-		if (execute_user_move(game) == -1) {
+		if (execute_user_move(game) == -1)
+		{
 			free(ai.should_start);
 			return (-1);
 		}
