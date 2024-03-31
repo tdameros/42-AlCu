@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lcottet <lcottet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 01:19:53 by tdameros          #+#    #+#             */
-/*   Updated: 2024/03/30 01:19:53 by tdameros         ###   ########lyon.fr   */
+/*   Updated: 2024/03/31 18:46:53 by lcottet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "game.h"
 #include "error.h"
 
-int8_t	execute_move(t_game *game, uint16_t move, char *playername)
+int8_t	execute_move(t_game *game, uint16_t move)
 {
 	uint16_t	*heap;
 
@@ -29,13 +29,7 @@ int8_t	execute_move(t_game *game, uint16_t move, char *playername)
 	if (*heap == 0 && game->current_heap > 0)
 		game->current_heap--;
 	else if (game->current_heap == 0 && *heap == 0)
-	{
-		if (write(STDOUT_FILENO, playername, ft_strlen(playername)) == -1)
-			return (-2);
-		if (write(STDOUT_FILENO, " lost!\n", 7) == -1)
-			return (-2);
-	}
-	printf("%s took %u\n", playername, move);
+		return (1);
 	return (0);
 }
 
@@ -55,7 +49,7 @@ int32_t	execute_user_move(t_game *game)
 		free(input);
 		if (move == INVALID_USER_INPUT)
 			print_error(INVALID_MOVE_ERROR);
-		return_code = execute_move(game, move, "user");
+		return_code = execute_move(game, move);
 		if (return_code == -1)
 		{
 			move = INVALID_USER_INPUT;

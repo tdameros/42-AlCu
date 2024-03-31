@@ -25,7 +25,7 @@ jobs:
       - name: Norminette
         run: |
           pip3 install norminette
-          norminette
+          norminette ./mandatory
 
       - name: Build
         run: make

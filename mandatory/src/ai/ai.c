@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ai.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lcottet <lcottet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 01:19:57 by tdameros          #+#    #+#             */
-/*   Updated: 2024/03/30 01:19:58 by tdameros         ###   ########lyon.fr   */
+/*   Updated: 2024/03/31 18:46:48 by lcottet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h>
 
 #include "game.h"
 
@@ -36,7 +35,6 @@ int16_t	init_ai(t_game *game, t_ai *ai)
 			ai->should_start[i] = *get_heap(game, i) % 4 != 0;
 		else
 			ai->should_start[i] = start_condition(*get_heap(game, i));
-		printf("%lu = %d\n", i, ai->should_start[i]);
 		i++;
 	}
 	return (0);
@@ -52,10 +50,6 @@ uint16_t	get_ai_move(t_game *game, const t_ai *ai)
 	uint16_t	heap;
 
 	heap = *get_heap(game, game->current_heap);
-	if (game->current_heap == 0 || ai->should_start[game->current_heap - 1])
-		printf("AI SHOULD WIN\n");
-	else
-		printf("AI SHOULD LOSE\n");
 	if (game->current_heap == 0 || ai->should_start[game->current_heap - 1])
 		return (get_heap_win_move(heap));
 	return (get_heap_lose_move(heap));

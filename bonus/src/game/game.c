@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   game.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lcottet <lcottet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 01:19:50 by tdameros          #+#    #+#             */
-/*   Updated: 2024/03/30 01:19:50 by tdameros         ###   ########lyon.fr   */
+/*   Updated: 2024/03/31 20:07:12 by lcottet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "game.h"
 #include "error.h"
 #include "parsing/get_next_line.h"
-
-static bool	is_finished(t_game *game);
 
 int32_t	init_game(t_game *game, int fd)
 {
@@ -35,7 +33,7 @@ void	start_game(t_game *game)
 	while (!is_finished(game))
 	{
 		display_game(game);
-		execute_move(game, get_ai_move(game, &ai), "AI");
+		execute_move(game, get_ai_move(game, &ai));
 		if (is_finished(game))
 			break ;
 		display_game(game);
@@ -59,7 +57,7 @@ void	display_game(t_game *game)
 	printf("----------------------\n");
 }
 
-static bool	is_finished(t_game *game)
+bool	is_finished(t_game *game)
 {
 	return (game->current_heap == 0 && *get_heap(game, 0) == 0);
 }
