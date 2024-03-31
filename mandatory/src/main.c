@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdameros <tdameros@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: lcottet <lcottet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 22:35:32 by tdameros          #+#    #+#             */
-/*   Updated: 2024/03/29 22:35:34 by tdameros         ###   ########lyon.fr   */
+/*   Updated: 2024/03/31 20:05:46 by lcottet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,11 @@ int	main(int argc, char **argv)
 		print_error(GENERIC_ERROR);
 		return (1);
 	}
-	printf("Start game\n");
-	start_game(&game);
+	if (start_game(&game) == -1)
+	{
+		print_error(GENERIC_ERROR);
+		return (1);
+	}
 	vector_free(&game.heaps);
 	return (0);
 }

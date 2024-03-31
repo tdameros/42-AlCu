@@ -1,18 +1,25 @@
 #*******************************  VARIABLES  **********************************#
 
-NAME			=	alcu
+BONUS			=	0
+
+ifeq ($(BONUS), 0)
+	PROJECT_PATH	=	./mandatory/
+	NAME			=	alcu
+endif
+ifeq ($(BONUS), 1)
+	PROJECT_PATH	=	./bonus/
+	NAME			=	alcu_bonus
+endif
 MAP_GEN_SIZE	=	5
 MAP_GEN_RANGE	=	10
 
 # --------------- FILES --------------- #
 
-include src.mk
+include $(PROJECT_PATH)/src.mk
 
 # ------------ DIRECTORIES ------------ #
 
 DIR_BUILD		=	.build/
-DIR_SRC 		=	src/
-DIR_INCLUDE		=	include/
 DIR_LIB			=	lib/
 DIR_VECTOR		=	$(addprefix $(DIR_LIB), vector/)
 VECTOR_INCLUDES	= 	$(addprefix $(DIR_VECTOR), includes/)
@@ -36,7 +43,7 @@ RANDOM_MAP_GEN	=	$(addprefix $(DIR_MAPS), random.map)
 
 # ------------ COMPILATION ------------ #
 
-CFLAGS			=	-Wall -Wextra -Werror -O3
+CFLAGS			=	-Wall -Wextra -Werror
 DEBUG_CFLAGS	=	-Wall -Wextra -Werror -fsanitize=address -g3
 
 DEP_FLAGS		=	-MMD -MP
@@ -46,7 +53,12 @@ DEP_FLAGS		=	-MMD -MP
 RM				=	rm -rf
 MKDIR			=	mkdir -p
 
-LIBS			=	-L$(DIR_VECTOR) -l$(VECTOR)
+ifeq ($(BONUS), 1)
+	LIBS			=	-L$(DIR_VECTOR) -l$(VECTOR) -lncurses
+endif
+ifeq ($(BONUS), 0)
+	LIBS			=	-L$(DIR_VECTOR) -l$(VECTOR)
+endif
 
 OS	= $(shell uname -s)
 
@@ -70,6 +82,8 @@ $(LIB_VECTOR): FORCE
 
 -include $(DEP)
 
+
+
 $(DIR_BUILD)%.o: %.c
 				mkdir -p $(shell dirname $@)
 				$(CC) $(CFLAGS) $(DEP_FLAGS) $(INCLUDES) -c $< -o $@
@@ -91,6 +105,10 @@ re:				fclean
 .PHONY: debug
 debug:	fclean
 				$(MAKE) all CFLAGS="$(DEBUG_CFLAGS)"
+
+.PHONY: bonus
+bonus:			$(BONUS_SRC)
+				$(MAKE) all BONUS=1
 
 .PHONY: generate_map
 generate_map:
