@@ -6,6 +6,8 @@
 # define GAME_TITLE "Nim Game"
 # define USER_PROMPT "Enter a move (1-%d): "
 # define ANY_TO_EXIT "Press any key to exit"
+# define LINE_TOO_LONG "Line too long"
+# define HEAP_SIDEBAR_REQUIRE 10
 # define STICK_SPACE 2
 # define HEAP_SPACE 2
 # define FOOTER_SPACE 3

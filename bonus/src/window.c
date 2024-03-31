@@ -200,17 +200,19 @@ static void     display_rows(t_game *game, t_gui *gui)
     for (ssize_t i = bottom_heap; i >= 0; i--) {
         uint16_t	heap = *get_heap(game, i);
 		uint32_t	column = (COLS - heap * STICK_SPACE) / 2;
-		if (heap * STICK_SPACE >= COLS) {
-			continue;
-		}
-		for (size_t j = 0; j < heap; j++) {
-			column += STICK_SPACE;
-			if ((size_t)i == game->current_heap && j >= (size_t)(heap - gui->highlight_amount)) {
-				attron(COLOR_PAIR(1));
-				mvprintw(row, column, "|");
-				attroff(COLOR_PAIR(1));
-			} else {
-				mvprintw(row, column, "|");
+		if (heap * STICK_SPACE + HEAP_SIDEBAR_REQUIRE >= COLS) {
+			mvprintw(row, (COLS - ft_strlen(LINE_TOO_LONG)) / 2, LINE_TOO_LONG);
+			column = ((COLS - ft_strlen(LINE_TOO_LONG)) / 2) + ft_strlen(LINE_TOO_LONG);
+		} else {
+			for (size_t j = 0; j < heap; j++) {
+				column += STICK_SPACE;
+				if ((size_t)i == game->current_heap && j >= (size_t)(heap - gui->highlight_amount)) {
+					attron(COLOR_PAIR(1));
+					mvprintw(row, column, "|");
+					attroff(COLOR_PAIR(1));
+				} else {
+					mvprintw(row, column, "|");
+				}
 			}
 		}
 		if (column > max_column)
