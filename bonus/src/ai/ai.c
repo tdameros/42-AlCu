@@ -6,7 +6,7 @@
 /*   By: lcottet <lcottet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 01:19:57 by tdameros          #+#    #+#             */
-/*   Updated: 2024/03/31 18:46:18 by lcottet          ###   ########.fr       */
+/*   Updated: 2024/03/31 20:15:30 by lcottet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int16_t	init_ai(t_game *game, t_ai *ai)
 			ai->should_start[i] = *get_heap(game, i) % 4 != 0;
 		else
 			ai->should_start[i] = start_condition(*get_heap(game, i));
-		printf("%lu = %d\n", i, ai->should_start[i]);
 		i++;
 	}
 	return (0);
