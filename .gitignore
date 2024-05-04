@@ -1,5 +1,3 @@
-# Tester
-
 # Junk
 .DS_Store
 .nfs*
@@ -18,6 +16,7 @@ cmake-build-debug/
 
 # Executables
 alcu
+alcu_bonus
 libft_test
 libft_test_debug
 *.exe
